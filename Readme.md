@@ -1,6 +1,36 @@
-VESC CONFIGS
+# VESC Config Web Tool
 
-CURRENT
+### [config.esk8.it](http://config.esk8.it)
+
+
+
+Enjoy!
+
+---
+
+### Prerequisites
+
+Ruby 1.9+ installed
+
+
+### Setup and start
+
+```sh
+$ gem i bundle
+
+$ bundle install
+$ bundle exec inesita server
+```
+
+Go to [http://localhost:9292/](http://localhost:9292/)
+
+
+---
+
+
+###
+
+
 
 
 ```hson
@@ -24,26 +54,17 @@ l_abs_current_max: 130
 l_max_erpm:        100000
 
 
-
 # Battery (8S Lipo)
 
 l_battery_cut_start:   28
 l_battery_cut_end:   26.4
 
 
+# BLDC
+sl_min_erpm:                  150
+sl_min_erpm_cycle_int_limit:  1100
+sl_bemf_coupling_k:           600
+
 
 }
 ```
-
-configs:
-
-default
-
-6372 Motor (Enertion)
-8S Battery
-15/36T
-97mm wheels
-Enertion motor mount
-
-VESC ESC
-BLDC mode
