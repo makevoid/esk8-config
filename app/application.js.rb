@@ -1,5 +1,6 @@
 # require Inesita
 require 'inesita'
+require 'xml-motor'
 
 # require main parts of application
 require 'router'

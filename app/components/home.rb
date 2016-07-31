@@ -1,4 +1,4 @@
-require 'calc'
+require 'configurator'
 
 class Home
   include Inesita::Component
@@ -29,30 +29,29 @@ class Home
   end
 
   def render
-    div class: 'jumbotron text-center' do
-      h1 do
-        text "VESC Config Tool"
-      end
+    div class: 'container' do
+
       p(class: "tagline") do
         text "Electric Skateboard VESC ESC Configuration Tool"
       end
-      div(class: "s20")
+      div(class: "s-20")
 
       section(class: "calc-form") {
         form {
           div(class: "row") {
-            div(class: "col-xs-12") {
-              h1 { text "Current Limits" }
-              div(class: "s10")
+            div(class: "col s12") {
+              h1 { text "SOON!" }
+              h6 { text "Current Limits" }
+              div(class: "s-10")
             }
           }
 
           div(class: "row") {
-            div(class: "col-md-4 col-xs-12") {
+            div(class: "col s12") {
 
               div(class: "form-group") {
                 label(for: "l_current_max") {
-                  text "Number of Cells (6S-12S)"
+                  text "Motor Max"
                 }
                 input(name: 'l_current_max', value: @store.get("l_current_max"), onkeyup: method(:change), type: "text", id: "l_current_max", class: "form-control")
               }
@@ -61,13 +60,23 @@ class Home
           }
         }
       }
-      div(class: "s20")
+      div(class: "s-20")
 
-      button(onclick: method(:save)) {
+      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
+        text "Load XML"
+      }
+      span(class: "hs-10")
+
+      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
         text "Save"
       }
+      span(class: "hs-10")
 
-      div(class: "s30")
+      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
+        text "Export XML"
+      }
+
+      div(class: "s-30")
     end
 
   end

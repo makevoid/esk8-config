@@ -1,52 +1,42 @@
-@import "bootstrap"
-
-body
-  margin: 10px 0
-
-.calc-form
-  margin: 0 auto
-  width: 97%
-  min-width: 300px
-
-  h1
-    font-size: 1.6em
-    font-weight: bold
-
-// label
-//   display: block
+@import "materialize/components/color"
+$primary-color: color("blue", "lighten-2") !default
+// $primary-color: color("materialize-red", "lighten-2") !default
+// $primary-color-light: lighten($primary-color, 15%)
+// $primary-color-dark: darken($primary-color, 15%)
 //
-// input, select
-//   display: block
+// $secondary-color: color("teal", "lighten-1") !default
+// $success-color: color("green", "base") !default
+// $error-color: color("red", "base") !default
+//
+// $link-color: color("light-blue", "darken-1") !default
+@import "materialize"
 
-.wrap-60
-  margin: 0 auto
-  width: 60%
-  min-width: 300px
 
-.form-group
-  margin-bottom: 10px
+// body
+//   margin: 10px 0
 
-.s5
+
+.s-5
   height: 5px
-.s10
+.s-10
   height: 10px
-.s10
+.s-10
   height: 10px
-.s20
+.s-20
   height: 20px
-.s30
+.s-30
   height: 30px
-.s40
+.s-40
   height: 40px
-.s50
+.s-50
   height: 50px
-.s60
+.s-60
   height: 60px
-.s70
+.s-70
   height: 70px
-.s80
+.s-80
   height: 80px
-.s90
+.s-90
   height: 90px
 
 .up-5, .up-10, .up-15
@@ -59,28 +49,8 @@ body
 .up-15
   top: -15px
 
+.hs-10
+  margin-left: 10px
+
 .a-left
   text-align: left
-
-.container > .jumbotron
-  padding-top: 15px
-
-
-.jumbotron > h1, .jumbotron > .tagline
-  font-weight: bold
-
-.jumbotron > h1
-  font-size: 2em
-
-.jumbotron > .tagline
-  font-size: 1em
-  margin-bottom: 0
-
-.heading-gearing-sm
-  display: none
-
-@media (max-width: $screen-sm-max)
-  .heading-gearing
-    display: none
-  .heading-gearing-sm
-    display: block

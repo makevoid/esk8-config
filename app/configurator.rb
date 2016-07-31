@@ -113,12 +113,12 @@ class Configurator
   # parse
 
   def parse!
-    for key in CONF_KEYS
+    conf = {}
+    CONF_KEYS.each do |key|
       xres = XMLMotor.get_node_from_content @config_raw, "MCConfiguration.#{key}"
-
-
-      raise xres.inspect
+      conf[key] = xres.first
     end
+    conf
     # Nokogiri::XML @config_raw
   end
 
@@ -206,13 +206,13 @@ class Configurator
 end
 
 # ---
-
-# require 'nokogiri'
-require 'xml-motor'
-
-VESC_CONFIG = File.read File.expand_path "./tmp/test.xml"
-
-config = Configurator.new VESC_CONFIG
-# config.to_hson
-
-puts config.to_json
+#
+# # require 'nokogiri'
+# require 'xml-motor'
+#
+# VESC_CONFIG = File.read File.expand_path "./tmp/test.xml"
+#
+# config = Configurator.new VESC_CONFIG
+# # config.to_hson
+#
+# puts config.to_json
