@@ -24,10 +24,6 @@ GEM
       ruby_dep (~> 1.2)
     materialize-sass (0.97.6)
       sass (~> 3.3)
-    mini_portile2 (2.1.0)
-    nokogiri (1.6.8)
-      mini_portile2 (~> 2.1.0)
-      pkg-config (~> 1.1.7)
     opal (0.10.1)
       hike (~> 1.2)
       sourcemap (~> 0.1.0)
@@ -35,7 +31,6 @@ GEM
       tilt (>= 1.4)
     opal-virtual-dom (0.4.2)
       opal
-    pkg-config (1.1.7)
     puma (3.4.0)
     rack (2.0.1)
     rack-rewrite (1.5.1)
@@ -57,6 +52,7 @@ GEM
     uglifier (3.0.1)
       execjs (>= 0.3.0, < 3)
     websocket (1.2.3)
+    xml-motor (0.1.6)
 
 PLATFORMS
   ruby
@@ -66,9 +62,9 @@ DEPENDENCIES
   inesita (~> 0.4.0)
   inesita-livereload (~> 0.1.0)
   materialize-sass
-  nokogiri
   puma
   uglifier
+  xml-motor
 
 BUNDLED WITH
    1.12.5
