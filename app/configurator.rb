@@ -11,9 +11,9 @@ class Configurator
 
   attr_reader :config
 
-  def initializer(config_raw=DEFAULT_CONFIG) # raw XML config
+  def initialize(config_raw=DEFAULT_CONFIG) # raw XML config
     @config_raw  = config_raw
-    @config      = parse
+    @config      = parse!
     @config_core = select_core
   end
 
@@ -24,7 +24,7 @@ class Configurator
   end
 
   LABELS = {
-    current_limits: "Current"
+    current_limits: "Current",
 
     l_current_max:      "Motor max",
     l_current_min:      "Motor min (regen)",
@@ -68,10 +68,10 @@ class Configurator
   def select_core
     c = CORE_CONFIGS
     {
-      motor:        select @config, :motor
-      rpm_limiting: select @config, :rpm_limiting
-      battery:      select @config, :battery
-      bldc:         select @config, :bldc
+      motor:        select(@config, :motor),
+      rpm_limiting: select(@config, :rpm_limiting),
+      battery:      select(@config, :battery),
+      bldc:         select(@config, :bldc),
       # ...
     }
   end
@@ -81,7 +81,7 @@ class Configurator
   def select(config, config_key, core: true)
     conf = CORE_CONFIGS
     conf = CONFIGS unless core
-    config.select{ |k, v| conf[config_key].include? k },
+    config.select{ |k, v| conf[config_key].include? k }
   end
 
 
@@ -101,11 +101,7 @@ class Configurator
     @config.to_json
   end
 
-  def core
-    Object.new
-  end
-
-  def core.to_json
+  def core_to_json
     @config_core.to_json
   end
 end

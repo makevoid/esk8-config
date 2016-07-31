@@ -1,4 +1,4 @@
-# source "https://rubygems.org"
+source "https://rubygems.org"
 
 # inesita gem
 gem 'inesita', '~> 0.4.0'
