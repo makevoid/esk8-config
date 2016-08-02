@@ -1,15 +1,28 @@
 require 'configurator'
 
+class ConfigGroup
+  def render
+    div(class: "config-group") {
+      label(for: key) {
+        text Configurator::LABELS.fetch(key)
+      }
+      
+      input(name: key, value: @store.get(key), onkeyup: method(:change), type: "text", id: key, class: key)
+    }
+  end
+end
+
+
 class Home
   include Inesita::Component
 
   def initialize
-    block = lambda do
+    block = lambda {
       # Calc.calc! @store
 
       # Configurator.new ...
       render!
-    end
+    }
 
     `window.setTimeout(#{block.to_n}, 1000)`
   end
@@ -49,12 +62,13 @@ class Home
           div(class: "row") {
             div(class: "col s12") {
 
-              div(class: "form-group") {
-                label(for: "l_current_max") {
-                  text "Motor Max"
-                }
-                input(name: 'l_current_max', value: @store.get("l_current_max"), onkeyup: method(:change), type: "text", id: "l_current_max", class: "form-control")
-              }
+              h3 { text "Motor Config" }
+
+              # Configurator.core_configs_plain.each do |key|
+
+              Configurator.core_configs[:motor].each do |key|
+                component ConfigGroup
+              end
 
             }
           }

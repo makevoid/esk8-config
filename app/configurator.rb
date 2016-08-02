@@ -164,6 +164,18 @@ class Configurator
     ),
   }
 
+  def self.core_configs
+    CORE_CONFIGS
+  end
+
+  def self.core_configs_plain
+    confs = []
+    CORE_CONFIGS.each do |key, vals|
+      confs += vals
+    end
+    confs
+  end
+
   def select_core
     c = CORE_CONFIGS
     {
