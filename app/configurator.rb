@@ -1,3 +1,5 @@
+# TODO: move list of config keys outside
+
 CONF_KEYS = %w(
 pwm_mode
 comm_mode
@@ -223,9 +225,33 @@ class Configurator
 
   # output
 
-  # def to_hson
+  # def to_hjson
   #  # TODO
   # end
+
+  def to_hrf
+    # human-readable format
+    out = ""
+    @config.each do |key, val|
+      label = hrf_label key, match: :exact
+      label = " (#{label})" if label
+      out << "#{key}: #{val}#{label}\n"
+    end
+    out
+  end
+
+  def to_hrfl
+    # human-readable format [LABELS]
+    hrlf_transform @config
+  end
+
+  def core_to_hrfl
+    conf_core_plain = {}
+    self.class.core_configs_plain.each do |key|
+      conf_core_plain[key] = @config[key.to_s]
+    end
+    hrlf_transform conf_core_plain
+  end
 
   def to_json
     @config.to_json
@@ -237,6 +263,46 @@ class Configurator
   end
 
   private
+
+  def humanize(string)
+    string = keys_prefixes_remove string
+    string.split(/_| /).map do |w|
+      unless w.upcase == w
+        w.capitalize
+      else
+        w
+      end
+    end.join " "
+  end
+
+  def keys_prefixes_remove(key)
+    key = key.gsub /^(s_|m_)/, ''
+    key = key.gsub /^l_/,   "limit - "
+    key = key.gsub /^sl_/,  "BLDC - "
+    key = key.gsub /^foc_/, "FOC - "
+    key = key.gsub /^s_/,   "speed - "
+    key = key.gsub /^p_/,   "position - "
+    key = key.gsub /^cc_/,  "current control - "
+    key
+  end
+
+  def hrlf_transform(config)
+    out = ""
+    out << "#{"-"*52}\n"
+    config.each do |key, val|
+      label = hrf_label key
+      # out << "#{label}: #{val}\n"
+      out << "%-42s: #{val}\n" % label
+      out << "#{"-"*52}\n"
+    end
+    out
+  end
+
+  def hrf_label(key, match: nil)
+    label = LABELS[key.to_sym]
+    return label if match == :exact
+    label || humanize(key)
+  end
 
   def config_xml
     conf_xml = {}
@@ -257,7 +323,7 @@ end
 # ---
 # run this file: either import XML and JSON string - get it converted into a Ruby Hash internally and expored via `to_xml`, `to_json`
 #
-# #
+# # #
 # require 'xml-motor'
 # require 'xmlsimple'
 # require 'json'
@@ -273,3 +339,12 @@ end
 # puts
 # puts "XML"
 # puts config.to_xml
+# puts
+# puts "HRF"
+# puts config.to_hrf
+# puts
+# puts "HRFL"
+# puts config.to_hrfl
+# puts
+# puts "HRFL (core configs only)"
+# puts config.core_to_hrfl
