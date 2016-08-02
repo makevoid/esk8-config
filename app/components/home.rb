@@ -46,7 +46,7 @@ class Home
   end
 
   def xml_load(e)
-    
+
   end
 
   def save(e)
@@ -68,37 +68,38 @@ class Home
       section(class: "calc-form") {
         form {
           div(class: "row") {
-            div(class: "col s12") {
-              h1 { text "SOON!" }
-              h6 { text "Current Limits" }
-              div(class: "s-10")
-            }
-          }
-
-          div(class: "row") {
-            div(class: "col s12") {
-
+            div(class: "col s6") {
               # Configurator.core_configs_plain.each do |key|
 
-              h3 { text "Motor Config" }
-              Configurator.core_configs[:motor].each do |key|
+              h5 { text "Current Limits - Motor" }
+              Configurator.core_configs[:current_motor].each { |key|
                 component ConfigGroup.new key: key
-              end
+              }
+              div(class: "s-80")
 
-              h3 { text "RPM Limiting" }
-              Configurator.core_configs[:rpm_limiting].each do |key|
+              h5 { text "RPM Limiting" }
+              Configurator.core_configs[:rpm_limiting].each { |key|
                 component ConfigGroup.new key: key
-              end
+              }
+              div(class: "s-80")
 
-              h3 { text "Battery" }
-              Configurator.core_configs[:battery].each do |key|
+              h5 { text "BLDC" }
+              Configurator.core_configs[:bldc].each { |key|
                 component ConfigGroup.new key: key
-              end
+              }
+            }
 
-              h3 { text "BLDC" }
-              Configurator.core_configs[:bldc].each do |key|
+            div(class: "col s6") {
+
+              h5 { text "Current Limits - Battery" }
+              Configurator.core_configs[:current_battery].each { |key|
                 component ConfigGroup.new key: key
-              end
+              }
+
+              h5 { text "Battery" }
+              Configurator.core_configs[:battery].each { |key|
+                component ConfigGroup.new key: key
+              }
 
             }
           }
@@ -106,10 +107,39 @@ class Home
       }
       div(class: "s-20")
 
+      #  actions / buttons
+      div(class: "s-30")
+
+      div(class: "row") {
+        div(class: "col s6") {
+          form(action: "#") {
+            input(type: "file", name: "config")
+
+          #   div(class: "file-field input-field") {
+          #     div(class: "btn") {
+          #       span { text "XML config file" }
+          #       input(type: "file", name: "config")
+          #     }
+          #   }
+          #   div(class: "file-path-wrapper") {
+          #     input(class: "file-path validate", type: "text")
+          #   }
+          }
+        }
+      }
+
       button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
         text "Load XML"
       }
-      span(class: "hs-10")
+
+      span(class: "hs-150")
+
+      button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
+        text "Load default configs"
+      }
+
+
+      div(class: "s-60")
 
       button(class: "waves-effect waves-light btn", onclick: method(:save)) {
         text "Save"

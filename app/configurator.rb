@@ -161,16 +161,17 @@ class Configurator
     l_battery_cut_start: "Battery cutoff start",
     l_battery_cut_end:   "Battery cutoff end",
 
-
     sl_min_erpm:                 "Sensorless min RPM",
     sl_min_erpm_cycle_int_limit: "Integrator limit",
     sl_bemf_coupling_k:          "BEMF coupling",
   }
 
   CORE_CONFIGS = {
-    motor: %i(
+    current_motor: %i(
       l_current_max
       l_current_min
+    ),
+    current_battery: %i(
       l_in_current_max
       l_in_current_min
       l_abs_current_max
@@ -204,10 +205,11 @@ class Configurator
   def select_core
     c = CORE_CONFIGS
     {
-      motor:        select(@config, :motor),
-      rpm_limiting: select(@config, :rpm_limiting),
-      battery:      select(@config, :battery),
-      bldc:         select(@config, :bldc),
+      current_motor:   select(@config, :current_motor),
+      current_battery: select(@config, :current_battery),
+      rpm_limiting:    select(@config, :rpm_limiting),
+      battery:         select(@config, :battery),
+      bldc:            select(@config, :bldc),
       # ...
     }
   end
@@ -258,7 +260,8 @@ class Configurator
   end
 
   def to_xml
-    xml_core = XmlSimple.xml_out config_xml, keeproot: true, noescape: true
+    # xml_core = XmlSimple.xml_out config_xml, keeproot: true, noescape: true
+    xml_core = "FAIL - no xml transform library"
     (XML_TEMPLATE % xml_core).strip
   end
 

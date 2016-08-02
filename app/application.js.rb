@@ -1,6 +1,9 @@
 # require Inesita
 require 'inesita'
 require 'xml-motor'
+# require 'rexml/document'
+# require 'xmlsimple'
+require 'json'
 
 # require main parts of application
 require 'router'
