@@ -88,23 +88,34 @@ m_duty_ramp_step_rpm_lim
 m_current_backoff_gain
 m_encoder_counts
 m_sensor_port_mode
-meta_description
 )
 
-DEFAULT_CONFIG = "
+# XML_TEMPLATE = "
+# <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+# <MCConfiguration>
+# %s
+# </MCConfiguration>
+# "
+XML_TEMPLATE = "
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<MCConfiguration>
-  <l_current_max>70</l_current_max>
-  <l_current_min>-70</l_current_min>
-</MCConfiguration>
+%s
 "
+
+# DEFAULT_CONFIG = "
+# <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+# <MCConfiguration>
+#   <l_current_max>70</l_current_max>
+#   <l_current_min>-70</l_current_min>
+# </MCConfiguration>
+# "
 
 class Configurator
   # configurator for VESC Motor configuration (MCConfiguration XML file)
 
   attr_reader :config, :config_raw
 
-  def initialize(conf_raw=DEFAULT_CONFIG) # raw XML config
+  def initialize(conf_raw, type: :xml) # raw XML config
+    @type        = type
     @config_raw  = conf_raw
     @config      = parse!
     @config_core = select_core
@@ -113,14 +124,26 @@ class Configurator
   # parse
 
   def parse!
+    @type == :xml ? parse_xml : parse_json
+  end
+
+  private
+
+  def parse_xml
     conf = {}
     CONF_KEYS.each do |key|
       xres = XMLMotor.get_node_from_content @config_raw, "MCConfiguration.#{key}"
       conf[key] = xres.first
     end
     conf
-    # Nokogiri::XML @config_raw
   end
+
+  def parse_json
+    JSON.parse @config_raw
+  end
+
+  public
+
 
   LABELS = {
     current_limits: "Current",
@@ -200,16 +223,30 @@ class Configurator
 
   # output
 
-  def to_hson
-
-  end
+  # def to_hson
+  #  # TODO
+  # end
 
   def to_json
     @config.to_json
   end
 
   def to_xml
-    @config.to_json
+    xml_core = XmlSimple.xml_out config_xml, keeproot: true, noescape: true
+    (XML_TEMPLATE % xml_core).strip
+  end
+
+  private
+
+  def config_xml
+    conf_xml = {}
+    @config.each do |key, val|
+      conf_xml[key] = { "content" => val }
+    end
+    # main key
+    {
+      "MCConfiguration" => conf_xml
+    }
   end
 
   def core_to_json
@@ -218,13 +255,21 @@ class Configurator
 end
 
 # ---
+# run this file: either import XML and JSON string - get it converted into a Ruby Hash internally and expored via `to_xml`, `to_json`
 #
-# # require 'nokogiri'
+# #
 # require 'xml-motor'
+# require 'xmlsimple'
+# require 'json'
 #
-# VESC_CONFIG = File.read File.expand_path "./tmp/test.xml"
+# VESC_CONFIG      = File.read File.expand_path "./tmp/test.xml"
+# VESC_CONFIG_JSON = File.read File.expand_path "./tmp/test.json"
 #
 # config = Configurator.new VESC_CONFIG
-# # config.to_hson
+# # config = Configurator.new VESC_CONFIG_JSON, type: :json
 #
+# puts "JSON"
 # puts config.to_json
+# puts
+# puts "XML"
+# puts config.to_xml

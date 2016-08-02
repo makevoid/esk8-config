@@ -1,12 +1,30 @@
 require 'configurator'
 
 class ConfigGroup
+  include Inesita::Component
+
+  attr_reader :key
+
+  def initialize(key:)
+    @key = key
+  end
+
+  def change(e)
+    key = e.target.name
+    val = e.target.value
+    `console.log(key, val)`
+    @store.set key, val.to_i
+    # Calc.calc! @store
+    # Configurator.new ...
+    render!
+  end
+
   def render
     div(class: "config-group") {
       label(for: key) {
         text Configurator::LABELS.fetch(key)
       }
-      
+
       input(name: key, value: @store.get(key), onkeyup: method(:change), type: "text", id: key, class: key)
     }
   end
@@ -27,18 +45,16 @@ class Home
     `window.setTimeout(#{block.to_n}, 1000)`
   end
 
-  def change(e)
-    key = e.target.name
-    val = e.target.value
-    `console.log(key, val)`
-    @store.set key, val.to_i
-    # Calc.calc! @store
-    # Configurator.new ...
-    render!
+  def xml_load(e)
+    
   end
 
   def save(e)
     @store.save!
+  end
+
+  def xml_export(e)
+
   end
 
   def render
@@ -62,12 +78,26 @@ class Home
           div(class: "row") {
             div(class: "col s12") {
 
-              h3 { text "Motor Config" }
-
               # Configurator.core_configs_plain.each do |key|
 
+              h3 { text "Motor Config" }
               Configurator.core_configs[:motor].each do |key|
-                component ConfigGroup
+                component ConfigGroup.new key: key
+              end
+
+              h3 { text "RPM Limiting" }
+              Configurator.core_configs[:rpm_limiting].each do |key|
+                component ConfigGroup.new key: key
+              end
+
+              h3 { text "Battery" }
+              Configurator.core_configs[:battery].each do |key|
+                component ConfigGroup.new key: key
+              end
+
+              h3 { text "BLDC" }
+              Configurator.core_configs[:bldc].each do |key|
+                component ConfigGroup.new key: key
               end
 
             }
@@ -76,7 +106,7 @@ class Home
       }
       div(class: "s-20")
 
-      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
+      button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
         text "Load XML"
       }
       span(class: "hs-10")
@@ -86,7 +116,7 @@ class Home
       }
       span(class: "hs-10")
 
-      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
+      button(class: "waves-effect waves-light btn", onclick: method(:xml_export)) {
         text "Export XML"
       }
 

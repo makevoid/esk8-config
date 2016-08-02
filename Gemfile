@@ -7,6 +7,7 @@ gem 'inesita-livereload', '~> 0.1.0'
 # gem 'nokogiri'
 # gem 'xml-motor'
 gem 'xml-motor', github: "makevoid/rubygem_xml_motor"
+gem 'xml-simple'
 
 # minify files on build
 gem 'uglifier'
