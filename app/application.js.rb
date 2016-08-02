@@ -1,14 +1,14 @@
 # require Inesita
 require 'inesita'
-require 'xml-motor'
-# require 'rexml/document'
-# require 'xmlsimple'
+# require 'xml-motor'
+
 require 'json'
 
 # require main parts of application
 require 'router'
 require 'store'
 require 'layout'
+require 'seeds'
 
 # require all components
 require_tree './components'

@@ -46,6 +46,24 @@ class Home
   end
 
   def xml_load(e)
+    `var contents`
+    `var elem = document.querySelector('input[name="config"]')`
+    `var file = elem.files[0]`
+    `var reader = new FileReader()`
+    `var doneLoading = function(e) {`
+      `contents = e.target.result`
+      # `console.log(contents)`
+      @store.load_xml! `contents`
+      # @store.load_json! `contents`
+      render!
+    `}`
+    `reader.addEventListener("loadend", doneLoading)`
+
+    `reader.readAsText(file)`
+
+  end
+
+  def xml_load_default(e)
 
   end
 
@@ -113,7 +131,8 @@ class Home
       div(class: "row") {
         div(class: "col s6") {
           form(action: "#") {
-            input(type: "file", name: "config")
+            text "Select a VESC XML file to load the configs"
+            input(type: "file", name: "config", onchange: method(:xml_load) )
 
           #   div(class: "file-field input-field") {
           #     div(class: "btn") {
@@ -128,13 +147,13 @@ class Home
         }
       }
 
-      button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
-        text "Load XML"
-      }
+      # button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
+      #   text "Load XML"
+      # }
 
       span(class: "hs-150")
 
-      button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
+      button(class: "waves-effect waves-light btn", onclick: method(:xml_load_default)) {
         text "Load default configs"
       }
 
