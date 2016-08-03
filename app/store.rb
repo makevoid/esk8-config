@@ -1,4 +1,3 @@
-
 DEFAULT_CONFIG_XML = "
 <?xml version=\"1.0\" encoding=\"UTF-8\"?>
 <MCConfiguration>
@@ -9,6 +8,8 @@ DEFAULT_CONFIG_XML = "
 
 class Store
   include Inesita::Store
+
+  attr_reader :configurator
 
   def initialize
     # @configurator = Configurator.new DEFAULT_CONFIG, type: :json

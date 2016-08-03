@@ -4,6 +4,8 @@ source "https://rubygems.org"
 gem 'inesita', '~> 0.4.0'
 gem 'inesita-livereload', '~> 0.1.0'
 
+gem 'opal-browser'
+
 # gem 'nokogiri'
 # gem 'xml-motor'
 gem 'xml-motor', github: "makevoid/rubygem_xml_motor"

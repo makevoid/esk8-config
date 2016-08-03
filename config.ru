@@ -1,6 +1,7 @@
 # initialize bundler
 require 'bundler'
 Bundler.require
+require 'opal-browser'
 
 # you can comment this line to disable live-reload
 use Inesita::LiveReload

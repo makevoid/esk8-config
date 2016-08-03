@@ -7,8 +7,13 @@ require 'json'
 # require main parts of application
 require 'router'
 require 'store'
+require 'components/actions_panel'
 require 'layout'
 require 'seeds'
+require 'lib/timeout'
+
+require 'native'
+require 'browser'
 
 # require all components
 require_tree './components'

@@ -35,8 +35,12 @@ GEM
       sourcemap (~> 0.1.0)
       sprockets (~> 3.1)
       tilt (>= 1.4)
+    opal-browser (0.2.0)
+      opal
+      paggio
     opal-virtual-dom (0.4.2)
       opal
+    paggio (0.2.6)
     puma (3.6.0)
     rack (2.0.1)
     rack-rewrite (1.5.1)
@@ -68,6 +72,7 @@ DEPENDENCIES
   inesita (~> 0.4.0)
   inesita-livereload (~> 0.1.0)
   materialize-sass
+  opal-browser
   puma
   uglifier
   xml-motor!

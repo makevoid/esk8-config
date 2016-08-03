@@ -1,35 +1,5 @@
 require 'configurator'
-
-class ConfigGroup
-  include Inesita::Component
-
-  attr_reader :key
-
-  def initialize(key:)
-    @key = key
-  end
-
-  def change(e)
-    key = e.target.name
-    val = e.target.value
-    `console.log(key, val)`
-    @store.set key, val.to_i
-    # Calc.calc! @store
-    # Configurator.new ...
-    render!
-  end
-
-  def render
-    div(class: "config-group") {
-      label(for: key) {
-        text Configurator::LABELS.fetch(key)
-      }
-
-      input(name: key, value: @store.get(key), onkeyup: method(:change), type: "text", id: key, class: key)
-    }
-  end
-end
-
+# require 'config_group'
 
 class Home
   include Inesita::Component
@@ -45,43 +15,8 @@ class Home
     `window.setTimeout(#{block.to_n}, 1000)`
   end
 
-  def xml_load(e)
-    `var contents`
-    `var elem = document.querySelector('input[name="config"]')`
-    `var file = elem.files[0]`
-    `var reader = new FileReader()`
-    `var doneLoading = function(e) {`
-      `contents = e.target.result`
-      # `console.log(contents)`
-      @store.load_xml! `contents`
-      # @store.load_json! `contents`
-      render!
-    `}`
-    `reader.addEventListener("loadend", doneLoading)`
-
-    `reader.readAsText(file)`
-
-  end
-
-  def xml_load_default(e)
-
-  end
-
-  def save(e)
-    @store.save!
-  end
-
-  def xml_export(e)
-
-  end
-
   def render
     div class: 'container' do
-
-      p(class: "tagline") do
-        text "Electric Skateboard VESC ESC Configuration Tool"
-      end
-      div(class: "s-20")
 
       section(class: "calc-form") {
         form {
@@ -124,52 +59,6 @@ class Home
         }
       }
       div(class: "s-20")
-
-      #  actions / buttons
-      div(class: "s-30")
-
-      div(class: "row") {
-        div(class: "col s6") {
-          form(action: "#") {
-            text "Select a VESC XML file to load the configs"
-            input(type: "file", name: "config", onchange: method(:xml_load) )
-
-          #   div(class: "file-field input-field") {
-          #     div(class: "btn") {
-          #       span { text "XML config file" }
-          #       input(type: "file", name: "config")
-          #     }
-          #   }
-          #   div(class: "file-path-wrapper") {
-          #     input(class: "file-path validate", type: "text")
-          #   }
-          }
-        }
-      }
-
-      # button(class: "waves-effect waves-light btn", onclick: method(:xml_load)) {
-      #   text "Load XML"
-      # }
-
-      span(class: "hs-150")
-
-      button(class: "waves-effect waves-light btn", onclick: method(:xml_load_default)) {
-        text "Load default configs"
-      }
-
-
-      div(class: "s-60")
-
-      button(class: "waves-effect waves-light btn", onclick: method(:save)) {
-        text "Save"
-      }
-      span(class: "hs-10")
-
-      button(class: "waves-effect waves-light btn", onclick: method(:xml_export)) {
-        text "Export XML"
-      }
-
-      div(class: "s-30")
     end
 
   end

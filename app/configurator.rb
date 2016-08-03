@@ -1,3 +1,6 @@
+require 'lib/xmlparser'
+require 'lib/configurator/constants'
+
 class Configurator
   # configurator for VESC Motor configuration (MCConfiguration XML file)
 
@@ -21,11 +24,10 @@ class Configurator
   def parse_xml
     conf = {}
     config_raw = @config_raw.to_n
-    `parser = new DOMParser()`
-    `doc = parser.parseFromString(config_raw, "application/xml")`
+    xmlp = XMLParser.new config_raw
     CONF_KEYS.each do |key|
-      `result = doc.evaluate('/MCConfiguration/'+key+'', doc, null, XPathResult.STRING_TYPE, null)`
-      conf[key] = `result.stringValue`
+      res = xmlp.get "/MCConfiguration/#{key}"
+      conf[key] = res
     end
     conf
   end
@@ -36,49 +38,6 @@ class Configurator
 
   public
 
-
-  LABELS = {
-    current_limits: "Current",
-
-    l_current_max:      "Motor max",
-    l_current_min:      "Motor min (regen)",
-    l_in_current_max:   "Batt max",
-    l_in_current_min:   "Batt min (regen)",
-    l_abs_current_max:  "Absolute max",
-
-    l_max_erpm:          "Max RPM limit (BLDC)",
-
-    l_battery_cut_start: "Battery cutoff start",
-    l_battery_cut_end:   "Battery cutoff end",
-
-    sl_min_erpm:                 "Sensorless min RPM",
-    sl_min_erpm_cycle_int_limit: "Integrator limit",
-    sl_bemf_coupling_k:          "BEMF coupling",
-  }
-
-  CORE_CONFIGS = {
-    current_motor: %i(
-      l_current_max
-      l_current_min
-    ),
-    current_battery: %i(
-      l_in_current_max
-      l_in_current_min
-      l_abs_current_max
-    ),
-    rpm_limiting: %i(
-      l_max_erpm
-    ),
-    battery: %i(
-      l_battery_cut_start
-      l_battery_cut_end
-    ),
-    bldc: %i(
-      sl_min_erpm
-      sl_min_erpm_cycle_int_limit
-      sl_bemf_coupling_k
-    ),
-  }
 
   def self.core_configs
     CORE_CONFIGS
@@ -145,7 +104,7 @@ class Configurator
     hrlf_transform conf_core_plain
   end
 
-  def to_json
+  def to_json_fmt
     @config.to_json
   end
 
@@ -181,12 +140,12 @@ class Configurator
 
   def hrlf_transform(config)
     out = ""
-    out << "#{"-"*52}\n"
+    out += "#{"-"*52}\n"
     config.each do |key, val|
       label = hrf_label key
       # out << "#{label}: #{val}\n"
-      out << "%-42s: #{val}\n" % label
-      out << "#{"-"*52}\n"
+      out += "%-42s: #{val}\n" % label
+      out += "#{"-"*52}\n"
     end
     out
   end
