@@ -4,6 +4,8 @@ require 'lib/configurator/constants'
 class Configurator
   # configurator for VESC Motor configuration (MCConfiguration XML file)
 
+  include TextHelpers
+
   attr_reader :config, :config_raw
 
   def initialize(conf_raw, type: :xml) # raw XML config
@@ -115,28 +117,6 @@ class Configurator
   end
 
   private
-
-  def humanize(string)
-    string = keys_prefixes_remove string
-    string.split(/_| /).map do |w|
-      unless w.upcase == w
-        w.capitalize
-      else
-        w
-      end
-    end.join " "
-  end
-
-  def keys_prefixes_remove(key)
-    key = key.gsub /^(s_|m_)/, ''
-    key = key.gsub /^l_/,   "limit - "
-    key = key.gsub /^sl_/,  "BLDC - "
-    key = key.gsub /^foc_/, "FOC - "
-    key = key.gsub /^s_/,   "speed - "
-    key = key.gsub /^p_/,   "position - "
-    key = key.gsub /^cc_/,  "current control - "
-    key
-  end
 
   def hrlf_transform(config)
     out = ""

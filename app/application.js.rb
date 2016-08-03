@@ -11,6 +11,7 @@ require 'components/actions_panel'
 require 'layout'
 require 'seeds'
 require 'lib/timeout'
+require 'lib/text_helpers'
 
 require 'native'
 require 'browser'
