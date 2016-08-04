@@ -16,18 +16,18 @@ class NavBar
     div(class: "row red lighten-5") {
       div(class: "col s12") {
         ul(class: "tabs nav-tabs") {
-          li(class: "tab col s6") {
+          li(class: "tab col s4") {
             a(href: "/", class: "red-text #{"active" if router.current_url?(:home)}") { text "Basic" }
           }
-          li(class: "tab col s6") {
+          li(class: "tab col s4") {
             a(href: "/full", class: "red-text #{"active" if router.current_url?(:full)}") { text "Full" }
           }
-          li(class: "tab col s6") {
+          li(class: "tab col s4") {
             a(href: "/raw", class: "red-text #{"active" if router.current_url?(:raw)}") { text "Raw" }
           }
         }
       }
     }
   end
-  
+
 end

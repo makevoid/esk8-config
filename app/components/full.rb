@@ -12,9 +12,25 @@ class Full
     div(class: "container") {
       h5 { text "Full configuration" }
 
-      @conf.config.each do |key, val|
-        component ConfigInput.new key: key
-      end if @conf
+      if @conf
+        div(class: "row") {
+          div(class: "col s12 m4") {
+            @conf.config.select.with_index{ |c, idx| idx % 3 == 0 }.each { |key, val|
+              component ConfigInput.new key: key
+            }
+          }
+          div(class: "col s12 m4") {
+            @conf.config.select.with_index{ |c, idx| idx % 3 == 1 }.each { |key, val|
+              component ConfigInput.new key: key
+            }
+          }
+          div(class: "col s12 m4") {
+            @conf.config.select.with_index{ |c, idx| idx % 3 == 2 }.each { |key, val|
+              component ConfigInput.new key: key
+            }
+          }
+        }
+      end
     }
   end
 end
