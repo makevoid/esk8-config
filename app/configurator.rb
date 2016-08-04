@@ -112,7 +112,13 @@ class Configurator
 
   def to_xml
     # xml_core = XmlSimple.xml_out config_xml, keeproot: true, noescape: true
-    xml_core = "FAIL - no xml transform library"
+    conf = {
+      "MCConfiguration": @config
+    }
+    x2js = Native `new X2JS({stripWhitespaces: false})`
+    xml_core = x2js.json2xml_str conf
+
+    # xml_core = "FAIL - no xml transform library"
     (XML_TEMPLATE % xml_core).strip
   end
 

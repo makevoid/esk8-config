@@ -19,5 +19,6 @@ class Layout
 
     script(src: "/static/js/vendor/jquery.js", type: "text/javascript")
     script(src: "/static/js/vendor/materialize.js", type: "text/javascript")
+    script(src: "/static/js/vendor/x2js.js", type: "text/javascript")
   end
 end

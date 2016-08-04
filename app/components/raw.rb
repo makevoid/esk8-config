@@ -47,7 +47,16 @@ class Raw
           when :text
             text @conf.to_hrfl
           when :xml
-            text @conf.to_xml
+            xml = @conf.to_xml
+            xml = xml.split("><").join(">\n<")
+            xml = xml.split("\n").map do |line|
+              if %w(<?xml <MCCo </MCC).include? line[0..4]
+                line
+              else
+                "  #{line}"
+              end
+            end.join("\n")
+            text xml
           when :json
             txt = @conf.to_json_fmt
             # txt = `JSON.stringify(txt, null, 2)`
