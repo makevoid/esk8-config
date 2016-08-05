@@ -1,6 +1,6 @@
 module URLUpdater
   def url_update!
-    store_json = "#{@store.configurator.to_json_fmt}|"
+    store_json = "#{@store.configurator.to_json_fmt}|".gsub(/\s+/, '')
     if @store.previous_hash != "" && @store.previous_hash != store_json
       $$.location.hash   = store_json
     end

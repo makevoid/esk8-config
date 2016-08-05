@@ -17,6 +17,14 @@ class ConfigInput
     render!
   end
 
+  def change_debounced(e)
+    key = e.target.name
+    val = e.target.value
+    # `console.log(key, val)`
+    @store.set key, val.to_f
+    render!
+  end
+
   def render
     if @label
       label(for: key) {
@@ -24,6 +32,6 @@ class ConfigInput
       }
     end
 
-    input(name: key, value: @store.get(key), onkeyup: method(:change), type: "text", id: key, class: key)
+    input(name: key, value: @store.get(key), onchange: method(:change), onkeyup: method(:change_debounced), type: "text", id: key, class: key)
   end
 end
