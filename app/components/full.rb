@@ -52,7 +52,7 @@ class Full
             div(class: "s-20")
 
             h5 { text "PID control"}
-            @conf.config.select{|k,v| gconf[:hall_sensors].include? k }.each { |key, val|
+            @conf.config.select{|k,v| gconf[:pid_control].include? k }.each { |key, val|
               component ConfigInput.new key: key
             }
             div(class: "s-20")
