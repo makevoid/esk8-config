@@ -6,9 +6,6 @@ class Home
 
   def initialize
     block = lambda {
-      # Calc.calc! @store
-
-      # Configurator.new ...
       render!
     }
 

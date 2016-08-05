@@ -7,6 +7,19 @@ class ConfigInput
   def initialize(key:, label: true)
     @key   = key
     @label = label
+
+    # change debounced for keyup
+    #
+    change_base = -> (e)  {
+      key = e.target.name
+      val = e.target.value
+      # `console.log(key, val)`
+      @store.set key, val.to_f
+    }.to_n
+
+    Timeout.new 500 do
+      @change_debounced = `_.debounce(change_base, 800)`
+    end
   end
 
   def change(e)
@@ -18,11 +31,8 @@ class ConfigInput
   end
 
   def change_debounced(e)
-    key = e.target.name
-    val = e.target.value
-    # `console.log(key, val)`
-    @store.set key, val.to_f
-    render!
+    change_deb = @change_debounced.to_n
+    `change_deb(e)`
   end
 
   def render
