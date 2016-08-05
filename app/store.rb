@@ -12,14 +12,16 @@ class Store
   attr_reader :configurator
 
   attr_accessor :xml_blob
+  attr_accessor :previous_hash
 
   def initialize
+    @previous_hash = ""
     @configurator = Configurator.new Configurator::DEFAULT_CONFIG_JSON, type: :json
     # @configurator = Configurator.new DEFAULT_CONFIG_XML
     @store = @configurator.config
 
     store = @store.to_n
-    if `localStorage.esk8_config`
+    if `localStorage.esk8_config` && location_hash_blank?
       #   @store = Hash.new `localStorage.esk8_config_store`
       @store.each do |key, _|
         val = `localStorage["esk8_config_"+key]`
@@ -31,15 +33,11 @@ class Store
   def load_xml!(config)
     @configurator = Configurator.new config
     @store = @configurator.config
-    puts @store
-    #
   end
 
   def load_json!(config)
-    # TODO
-      @configurator = Configurator.new config, type: :json
-      @store = @configurator.config
-    "todo"
+    @configurator = Configurator.new config, type: :json
+    @store = @configurator.config
   end
 
   def set(key, value)
@@ -55,5 +53,13 @@ class Store
       `localStorage["esk8_config_"+key] = val`
     end
     `localStorage.esk8_config = true`
+  end
+
+  private
+
+  def location_hash_blank?
+    hash = $$.location.hash
+    hash = hash[1..-1]
+    !hash || hash == ""
   end
 end
