@@ -1,19 +1,21 @@
-DEFAULT_CONFIG_XML = "
-<?xml version=\"1.0\" encoding=\"UTF-8\"?>
-<MCConfiguration>
-  <l_current_max>70</l_current_max>
-  <l_current_min>-70</l_current_min>
-</MCConfiguration>
-".strip
+# DEFAULT_CONFIG_XML = "
+# <?xml version=\"1.0\" encoding=\"UTF-8\"?>
+# <MCConfiguration>
+#   <l_current_max>70</l_current_max>
+#   <l_current_min>-70</l_current_min>
+# </MCConfiguration>
+# ".strip
 
 class Store
   include Inesita::Store
 
   attr_reader :configurator
 
+  attr_accessor :xml_blob
+
   def initialize
-    # @configurator = Configurator.new DEFAULT_CONFIG, type: :json
-    @configurator = Configurator.new DEFAULT_CONFIG_XML
+    @configurator = Configurator.new Configurator::DEFAULT_CONFIG_JSON, type: :json
+    # @configurator = Configurator.new DEFAULT_CONFIG_XML
     @store = @configurator.config
 
     store = @store.to_n
@@ -21,7 +23,7 @@ class Store
       #   @store = Hash.new `localStorage.esk8_config_store`
       @store.each do |key, _|
         val = `localStorage["esk8_config_"+key]`
-        set key, val.to_i
+        set key, val.to_f
       end
     end
   end

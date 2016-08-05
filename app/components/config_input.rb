@@ -1,7 +1,7 @@
 class ConfigInput
   include Inesita::Component
   include TextHelpers
-  
+
   attr_reader :key
 
   def initialize(key:, label: true)
@@ -13,7 +13,7 @@ class ConfigInput
     key = e.target.name
     val = e.target.value
     # `console.log(key, val)`
-    @store.set key, val.to_i
+    @store.set key, val.to_f
     render!
   end
 

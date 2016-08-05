@@ -70,7 +70,7 @@ class Configurator
   def select(config, config_key, core: true)
     conf = CORE_CONFIGS
     conf = CONFIGS unless core
-    config.select{ |k, v| conf[config_key].include? k }
+    config.select{ |k, v| conf[config_key] && conf[config_key].include?(k) }
   end
 
 
