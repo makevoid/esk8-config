@@ -4,9 +4,9 @@ class Router
   include Inesita::Router
 
   def routes
-    route '/',     to: Home
-    route '/full', to: Full
-    route '/raw',  to: Raw
+    route '/',                    to: Home
+    route '/full',                to: Full
+    route '/export',              to: Export
     route '/clear_localstorage',  to: ClearLocalStorage
   end
 end

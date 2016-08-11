@@ -11,6 +11,8 @@ class Store
 
   attr_reader :configurator
 
+  attr_reader :status # writer (status=) is defined manually to add loagging
+
   attr_accessor :xml_blob
   attr_accessor :previous_hash
 
@@ -53,6 +55,12 @@ class Store
       `localStorage["esk8_config_"+key] = val`
     end
     `localStorage.esk8_config = true`
+  end
+
+  # attr_writer :status
+  def status=(status)
+    puts "new status: :#{status}"
+    @status = status
   end
 
   private

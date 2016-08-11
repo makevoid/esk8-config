@@ -2,27 +2,42 @@ module Actions
 
   def xml_load(e)
     # FileReader.new # TODO
-
-    %x{
-      var contents
-      var elem = document.querySelector('input[name="config"]')
-      var file = elem.files[0]
-      var reader = new FileReader()
-    }
-
+    `var contents`
+    `var elem = document.querySelector('input[name="config"]')`
+    `var file = elem.files[0]`
+    `var reader = new FileReader()`
     `var doneLoading = function(e) {`
       `contents = e.target.result`
       # `console.log(contents)`
       @store.load_xml! `contents`
+      `console.log("xml loaded!")`
       # @store.load_json! `contents`
       render!
     `}`
+    `reader.addEventListener("loadend", doneLoading)`
 
-    %x{
-      reader.addEventListener("loadend", doneLoading)
+    `reader.readAsText(file)`
 
-      reader.readAsText(file)
-    }
+    # %x{
+    #   var contents
+    #   var elem = document.querySelector('input[name="config"]')
+    #   var file = elem.files[0]
+    #   var reader = new FileReader()
+    # }
+    #
+    # `var doneLoading = function(e) {`
+    #   `contents = e.target.result`
+    #   # `console.log(contents)`
+    #   @store.load_xml! `contents`
+    #   # @store.load_json! `contents`
+    #   render!
+    # `}`
+    #
+    # %x{
+    #   reader.addEventListener("loadend", doneLoading)
+    #
+    #   reader.readAsText(file)
+    # }
 
     # TODO: switch to the new - opal-native code:
     #

@@ -23,7 +23,7 @@ class NavBar
             a(href: "/full", class: "red-text #{"active" if router.current_url?(:full)}") { text "Full" }
           }
           li(class: "tab col s4") {
-            a(href: "/raw", class: "red-text #{"active" if router.current_url?(:raw)}") { text "Raw" }
+            a(href: "/export", class: "red-text #{"active" if router.current_url?(:export)}") { text "Export" }
           }
         }
       }

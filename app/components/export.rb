@@ -1,4 +1,4 @@
-class Raw
+class Export
   include Inesita::Component
 
   include Actions
@@ -49,6 +49,9 @@ class Raw
 
     div(class: "container") {
 
+      # h4 { t "Export" }
+      h4 { text "Export" }
+
       div(class: "col s12") {
         ul(class: "tabs") {
           li(class: "tab col s6") {
@@ -77,30 +80,39 @@ class Raw
           when :text
             text @conf.to_hrfl
           when :xml
-            if x2js_loaded
-              xml = @conf.to_xml
-              xml = xml.split("><").join(">\n<")
-              xml = xml.split("\n").map do |line|
-                if %w(<?xml <MCCo </MCC).include? line[0..4]
-                  line
-                else
-                  "  #{line}"
-                end
-              end.join("\n")
-              text xml
-            end
+            conf_xml
           when :json
-            txt = @conf.to_json_fmt
-            # txt = `JSON.stringify(txt, null, 2)`
-            # textarea(disabled: true) {
-            txt = @conf.config.to_n
-            txt = `JSON.stringify(txt, null, 2)`
-
-            text txt
-            # }
+            conf_json
           end
         end
       }
     }
   end
+
+  def conf_xml
+    if x2js_loaded
+      xml = @conf.to_xml
+      xml = xml.split("><").join(">\n<")
+      xml = xml.split("\n").map do |line|
+        if %w(<?xml <MCCo </MCC).include? line[0..4]
+          line
+        else
+          "  #{line}"
+        end
+      end.join("\n")
+      text xml
+    end
+  end
+
+  def conf_json
+    txt = @conf.to_json_fmt
+    # txt = `JSON.stringify(txt, null, 2)`
+    # textarea(disabled: true) {
+    txt = @conf.config.to_n
+    txt = `JSON.stringify(txt, null, 2)`
+
+    text txt
+    # }
+  end
+
 end

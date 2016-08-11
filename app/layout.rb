@@ -34,6 +34,7 @@ class Layout
       component NavBar
       component router
       component ActionsPanel
+      component Status
     end
 
     url_update!

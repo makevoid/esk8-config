@@ -39,7 +39,7 @@ CONF_KEYS_GROUPS = {
     sl_cycle_int_rpm_br
     sl_bemf_coupling_k
   ),
-  hall_sensors: %w(
+  bldc_sensors: %w(
     hall_table_0
     hall_table_1
     hall_table_2
