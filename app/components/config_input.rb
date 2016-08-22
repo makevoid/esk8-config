@@ -18,7 +18,7 @@ class ConfigInput
     }.to_n
 
     Timeout.new 500 do
-      @change_debounced = `_.debounce(change_base, 800)`
+      @change_debounced = `window._.debounce(change_base, 800)`
     end
   end
 
