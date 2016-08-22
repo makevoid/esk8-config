@@ -39,7 +39,7 @@ class Store
 
   def load_json!(config)
     config = config.strip
-    config = $$.window.decodeURIComponent(config) if config[1] == "%"
+    config = $$.window.decodeURIComponent(config) if config[0] == "%" ||  config[1] == "%"
     @configurator = Configurator.new config, type: :json
     @store = @configurator.config
   end
